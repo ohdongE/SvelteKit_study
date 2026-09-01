@@ -1,2 +1,8 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<h1>main page</h1>
+
+<script lang="ts">
+    import { resolve } from '$app/paths';
+</script>
+  
+<a href={resolve('/about')}>about</a>
+<a href={resolve('/profile')}>profile</a>
