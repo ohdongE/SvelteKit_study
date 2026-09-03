@@ -1,6 +1,5 @@
 # Svelte Kit Study Recording
 ## with Bizworks
----
 
 ## About
 Learning SvelteKit by following [Coding Apple](https://www.youtube.com/@codingapple)'s tutorial series on YouTube.
