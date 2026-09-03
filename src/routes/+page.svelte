@@ -6,3 +6,4 @@
   
 <a href={resolve('/about')}>about</a>
 <a href={resolve('/profile')}>profile</a>
+<a href={resolve('/list')}>list</a>
