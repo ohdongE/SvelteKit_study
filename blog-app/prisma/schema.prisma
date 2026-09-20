@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model comments {
+  id         Int       @id @default(autoincrement())
+  content    String    @db.Text
+  user_id    Int
+  post_id    Int
+  created_at DateTime? @default(now()) @db.DateTime(0)
+  posts      posts     @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "comments_posts_fk")
+  users      users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "comments_users_fk")
+
+  @@index([post_id], map: "fk_comments_post")
+  @@index([user_id], map: "fk_comments_user")
+}
+
+model posts {
+  id         Int        @id @default(autoincrement())
+  title      String     @db.VarChar(200)
+  subtitle   String?    @db.VarChar(200)
+  content    String     @db.Text
+  user_id    Int
+  created_at DateTime?  @default(now()) @db.DateTime(0)
+  comments   comments[]
+  users      users      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "posts_users_fk")
+
+  @@index([user_id], map: "fk_posts_user")
+}
+
+model users {
+  id         Int        @id @default(autoincrement())
+  name       String     @db.VarChar(40)
+  email      String     @unique(map: "email") @db.VarChar(100)
+  password   String     @db.VarChar(255)
+  created_at DateTime?  @default(now()) @db.DateTime(0)
+  role_id    Int        @default(4)
+  comments   comments[]
+  posts      posts[]
+  sessions   sessions[]
+  roles      roles      @relation(fields: [role_id], references: [id], onUpdate: Restrict, map: "fk_users_role")
+
+  @@index([role_id], map: "fk_users_role")
+}
+
+model sessions {
+  id         String    @id @db.VarChar(36)
+  user_id    Int
+  expires_at DateTime  @db.DateTime(0)
+  created_at DateTime? @default(now()) @db.DateTime(0)
+  users      users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_sessions_user")
+
+  @@index([user_id], map: "fk_sessions_user")
+}
+
+model roles {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique(map: "name") @db.VarChar(20)
+  description String? @db.VarChar(200)
+  users       users[]
+}
