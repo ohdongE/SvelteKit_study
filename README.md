@@ -12,7 +12,6 @@ Learning SvelteKit by following [Coding Apple](https://www.youtube.com/@codingap
 - [x] 2026.09.04 : Optional Parameter Study
 
 ### MariaDB / RDBMS Fundamentals
-> 정확한 날짜 기록이 없어 범위로 표기 (추정)
 - [x] 2026.09.05 ~ 09.11 : Docker + MariaDB 환경 구축, DDL(CREATE/ALTER/DROP/TRUNCATE)
 - [x] 2026.09.05 ~ 09.11 : DML(INSERT/SELECT/UPDATE/DELETE), 집계함수, GROUP BY/HAVING
 - [x] 2026.09.05 ~ 09.11 : JOIN(INNER/LEFT/RIGHT), 서브쿼리, 상관 서브쿼리
