@@ -20,7 +20,7 @@ Learning SvelteKit by following [Coding Apple](https://www.youtube.com/@codingap
 
 ### Blog Project (SvelteKit 5 + TS + Prisma)
 - [x] 2026.09.12 : SvelteKit + Prisma 연동, CRUD(게시글/댓글/검색) 구현
-- [x] 2026.09.14~15 (추정) : 회원가입/로그인 폼, bcrypt 해싱
+- [x] 2026.09.14~15 : 회원가입/로그인 폼, bcrypt 해싱
 - [x] 2026.09.15 : 세션 기반 인증(hooks.server.ts, 쿠키), 로그인 상태 전역 관리
 - [x] 2026.09.15~16 : RBAC 권한 시스템(roles), 관리자 페이지, 마이페이지
 
