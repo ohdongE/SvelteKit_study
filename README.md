@@ -25,10 +25,10 @@ Learning SvelteKit by following [Coding Apple](https://www.youtube.com/@codingap
 - [x] 2026.09.15~16 : RBAC 권한 시스템(roles), 관리자 페이지, 마이페이지
 
 ### Worker Management App (SvelteKit 5 + TS + Prisma)
-- [x] 2026.09.16 : 요구사항 분석 및 스키마 설계 (roles / groups / users / sessions / attendance)
-- [x] 2026.09.16 : 순환 참조(FK) 처리, ON DELETE 정책 설계
-- [ ] 로그인(아이디+전화번호 인증) 구현
-- [ ] 역할별(관리자/팀장/유저) 페이지 분기
+- [x] 2026.09.19~20 : 요구사항 분석 및 스키마 설계 (roles / groups / users / sessions / attendance)
+- [x] 2026.09.19~20 : 순환 참조(FK) 처리, ON DELETE 정책 설계
+- [x] 2026.09.21 로그인(아이디+전화번호 인증) 구현
+- [x] 2026.09.21 역할별(관리자/팀장/유저) 페이지 분기
 - [ ] 출퇴근 체크인/체크아웃 기능
 - [ ] 급여 계산(시급 × 근무시간) 기능
 
