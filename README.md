@@ -30,7 +30,7 @@ Learning SvelteKit by following [Coding Apple](https://www.youtube.com/@codingap
 - [x] 2026.09.21 로그인(아이디+전화번호 인증) 구현
 - [x] 2026.09.21 역할별(관리자/팀장/유저) 페이지 분기
 - [x] 2026.09.25~26 출퇴근 체크인/체크아웃 기능
-- [ ] 급여 계산(시급 × 근무시간) 기능
+- [x] 급여 계산(시급 × 근무시간) 기능
 
 ---
 
