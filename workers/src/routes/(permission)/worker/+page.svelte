@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { resolve } from '$app/paths';
 	import { formatDateTime, formatDuration } from '$lib/format';
 	import type { PageProps } from './$types';
 
@@ -7,6 +8,7 @@
 </script>
 
 <h1>내 출퇴근</h1>
+<a href={resolve('/worker/pay')}>내 급여 보기</a>
 
 {#if data.activeRecord}
 	<p>근무중 · 출근 {formatDateTime(data.activeRecord.check_in)}</p>

@@ -3,6 +3,7 @@ import { requireRole, ROLE_ID, toId } from '$lib/server/auth';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 
+/** 그룹 목록과 선택한 그룹의 멤버 */
 export const load: PageServerLoad = async ({ url, locals }) => {
 	requireRole(locals.user, 'ADMIN');
 
@@ -20,7 +21,6 @@ export const load: PageServerLoad = async ({ url, locals }) => {
 			})
 		: [];
 
-	// Decimal은 직렬화가 안 되므로 number로 변환
 	const users = usersRaw.map((u) => ({
 		...u,
 		hourly_wage: Number(u.hourly_wage)
@@ -30,6 +30,7 @@ export const load: PageServerLoad = async ({ url, locals }) => {
 };
 
 export const actions: Actions = {
+	/** WORKER를 그룹 팀장으로 임명 */
 	promoteToLeader: async ({ request, locals }) => {
 		if (locals.user?.role !== 'ADMIN') {
 			return fail(403, { message: '권한이 없습니다.' });
@@ -75,6 +76,7 @@ export const actions: Actions = {
 		return { success: true, message: `${target.name}님을 팀장으로 임명했습니다.` };
 	},
 
+	/** 팀장을 WORKER로 변경 (소속 그룹은 유지) */
 	demoteToWorker: async ({ request, locals }) => {
 		if (locals.user?.role !== 'ADMIN') {
 			return fail(403, { message: '권한이 없습니다.' });
@@ -91,7 +93,6 @@ export const actions: Actions = {
 			return fail(400, { message: '팀장만 일반 작업자로 변경할 수 있습니다.' });
 		}
 
-		// 정책: 강등 시 group_id는 유지 (같은 그룹의 WORKER로 남음), 그룹의 leader_id만 해제
 		await prisma.$transaction([
 			prisma.users.update({
 				where: { id: userId },
@@ -104,5 +105,30 @@ export const actions: Actions = {
 		]);
 
 		return { success: true, message: `${target.name}님을 일반 작업자로 변경했습니다.` };
+	},
+
+	/** 시급 변경 (원 단위 정수) */
+	updateWage: async ({ request, locals }) => {
+		if (locals.user?.role !== 'ADMIN') {
+			return fail(403, { message: '권한이 없습니다.' });
+		}
+
+		const formData = await request.formData();
+		const userId = toId(formData.get('user_id'));
+		const wage = Number(formData.get('hourly_wage'));
+
+		if (!userId || !Number.isInteger(wage) || wage < 0 || wage > 99_999_999) {
+			return fail(400, { message: '시급을 올바르게 입력해주세요.' });
+		}
+
+		const { count } = await prisma.users.updateMany({
+			where: { id: userId },
+			data: { hourly_wage: wage }
+		});
+		if (count === 0) {
+			return fail(404, { message: '사용자를 찾을 수 없습니다.' });
+		}
+
+		return { success: true, message: `시급을 ${wage.toLocaleString('ko-KR')}원으로 변경했습니다.` };
 	}
 };

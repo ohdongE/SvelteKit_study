@@ -37,6 +37,19 @@
 			<li>
 				{user.name} ({user.login_id}) - {user.roles.name}
 
+				<form method="POST" action="?/updateWage" use:enhance style="display:inline">
+					<input type="hidden" name="user_id" value={user.id} />
+					<input
+						type="number"
+						name="hourly_wage"
+						value={user.hourly_wage}
+						min="0"
+						step="1"
+						style="width:7em"
+					/>원
+					<button type="submit">시급 저장</button>
+				</form>
+
 				{#if user.roles.name === 'WORKER' && !selectedGroup?.leader_id}
 					<form method="POST" action="?/promoteToLeader" use:enhance style="display:inline">
 						<input type="hidden" name="user_id" value={user.id} />

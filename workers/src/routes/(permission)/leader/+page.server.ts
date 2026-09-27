@@ -2,10 +2,10 @@ import { prisma } from '$lib/server/prisma';
 import { requireRole } from '$lib/server/auth';
 import type { PageServerLoad } from './$types';
 
+/** 내 그룹 정보와 멤버 목록 */
 export const load: PageServerLoad = async ({ locals }) => {
 	const user = requireRole(locals.user, 'LEADER');
 
-	// 소속 그룹이 없으면 (group_id: null 로 조회하면 무소속 전체가 나오므로) 빈 목록
 	if (user.group_id === null) {
 		return { group: null, members: [] };
 	}

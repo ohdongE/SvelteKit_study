@@ -4,13 +4,14 @@ import { fail, redirect } from '@sveltejs/kit';
 import { randomUUID } from 'crypto';
 import type { Actions, PageServerLoad } from './$types';
 
+/** 이미 로그인 상태면 역할 페이지로 이동 */
 export const load: PageServerLoad = async ({ locals }) => {
-	// 이미 로그인 상태면 자기 역할 페이지로
 	if (locals.user) throw redirect(303, homeOf(locals.user.role));
 	return {};
 };
 
 export const actions: Actions = {
+	/** 아이디·전화번호 확인 후 세션 생성 */
 	login: async ({ request, cookies }) => {
 		const formData = await request.formData();
 		const input_id = formData.get('login_id');

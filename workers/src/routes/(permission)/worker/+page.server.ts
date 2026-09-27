@@ -3,6 +3,7 @@ import { requireRole } from '$lib/server/auth';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 
+/** 내 출퇴근 기록과 근무중 기록 */
 export const load: PageServerLoad = async ({ locals }) => {
 	const user = requireRole(locals.user, 'WORKER');
 
@@ -11,13 +12,13 @@ export const load: PageServerLoad = async ({ locals }) => {
 		orderBy: { check_in: 'desc' }
 	});
 
-	// 아직 퇴근 안 한(진행중인) 기록이 있는지
 	const activeRecord = records.find((r) => r.check_out === null) ?? null;
 
 	return { records, activeRecord };
 };
 
 export const actions: Actions = {
+	/** 출근 기록 생성 */
 	checkIn: async ({ locals }) => {
 		if (!locals.user) return fail(401, { message: '로그인이 필요합니다.' });
 		if (locals.user.role !== 'WORKER') return fail(403, { message: '권한이 없습니다.' });
@@ -37,6 +38,7 @@ export const actions: Actions = {
 		return { success: true, message: '출근 처리되었습니다.' };
 	},
 
+	/** 근무중 기록에 퇴근 시각 기록 */
 	checkOut: async ({ locals }) => {
 		if (!locals.user) return fail(401, { message: '로그인이 필요합니다.' });
 		if (locals.user.role !== 'WORKER') return fail(403, { message: '권한이 없습니다.' });

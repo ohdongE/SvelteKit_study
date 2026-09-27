@@ -2,6 +2,7 @@ import { prisma } from '$lib/server/prisma';
 import { SESSION_COOKIE } from '$lib/server/auth';
 import type { Handle } from '@sveltejs/kit';
 
+/** 세션 쿠키로 로그인 유저를 locals에 설정 (만료 세션은 삭제) */
 export const handle: Handle = async ({ event, resolve }) => {
 	const sessionId = event.cookies.get(SESSION_COOKIE);
 
@@ -24,7 +25,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 				group_id: session.users.group_id
 			};
 		} else {
-			// 만료된 세션은 DB에서도 정리
 			if (session) await prisma.sessions.deleteMany({ where: { id: sessionId } });
 			event.cookies.delete(SESSION_COOKIE, { path: '/' });
 		}

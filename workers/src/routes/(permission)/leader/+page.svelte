@@ -7,6 +7,7 @@
 
 <h1>팀장 페이지</h1>
 <a href={resolve('/create_user')}>유저 생성</a>
+<a href={resolve('/leader/pay')}>그룹 급여</a>
 
 <h2>내 그룹 멤버 {data.group ? `(${data.group.name})` : ''}</h2>
 {#if data.group}
